@@ -1,0 +1,25 @@
+{
+  "name": "Opus · SC LegalTech",
+  "short_name": "Opus",
+  "description": "Sistema cognitivo LegalTech para firmas jurídicas en Colombia: integra la operación, prepara actuaciones con IA y mantiene aprobación humana antes de actuar.",
+  "lang": "es-CO",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/sc-legaltech-logo.png",
+      "type": "image/png",
+      "sizes": "400x416",
+      "purpose": "any"
+    }
+  ]
+}

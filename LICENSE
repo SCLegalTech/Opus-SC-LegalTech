@@ -1,0 +1,125 @@
+Opus Fair-Code Source-Available License v0.1
+
+IMPORTANT: This license text is adopted as the product and business direction
+for the public self-hosted release, but must receive final legal review before
+publication. See docs/arquitectura/adr-006-licencia-fair-code-source-available.md.
+
+Copyright (c) 2026 Smart Crypto Legal S.A.S.
+
+1. Definitions
+
+"Opus" means the software, documentation, examples, source code, user
+interfaces, MCP tools, schemas, and related files made available in this
+repository.
+
+"Licensor" means Smart Crypto Legal S.A.S.
+
+"You" means any individual or legal entity exercising rights under this
+license.
+
+"Self-hosted Internal Use" means running Opus on infrastructure controlled by
+you or your organization or firm, only for your own legal operations, research,
+evaluation, education, development, or internal business workflows. It does not
+include operating Opus as a shared, multi-tenant, hosted, managed, resale, or
+client-service platform for third parties.
+
+"Commercial Offering" means offering Opus, a modified version of Opus, or a
+substantial Opus-powered product or service to third parties for a fee or other
+commercial benefit.
+
+"Public Case Tracking Integration" means a connector, adapter, or MCP tool that
+performs lawful case-status lookup, docket/proceeding tracking, public court
+data normalization, or synchronization using public data or access credentials
+lawfully controlled by the self-hoster, without filing, submitting, signing,
+paying, or executing legal acts.
+
+2. Grant of Rights
+
+Subject to this license, Licensor grants you a non-exclusive, worldwide,
+royalty-free right to:
+
+- read, study, and evaluate the source code;
+- copy and run Opus for Self-hosted Internal Use;
+- modify Opus for Self-hosted Internal Use;
+- develop plugins, integrations, connectors, and contributions;
+- develop, run, and contribute Public Case Tracking Integrations for
+  Self-hosted Internal Use;
+- provide consulting services that help a client run an Opus instance controlled
+  by that client, provided you do not operate Opus as a hosted service for
+  multiple clients.
+
+3. Restrictions
+
+You may not, without a separate written commercial license from Licensor:
+
+- offer Opus as a hosted or managed service to third parties;
+- resell access to Opus, its UI, APIs, MCP tools, or workflows;
+- white-label, rebrand, or market Opus as your own competing platform;
+- embed Opus as a substantial component of another SaaS, marketplace, workflow
+  automation product, legal operations platform, or MCP platform offered to
+  third parties;
+- operate client data, legal files, judicial credentials, or third-party
+  workflows on an Opus instance controlled by you as a service provider;
+- offer or enable court filing/radicacion, submission workflows, legal-act
+  execution, managed judicial last-mile operations, payment-provider flows, or
+  subscription, plan, quota, and commercial-tenant systems as part of a public
+  or third-party service;
+- remove or obscure copyright, license, fair-code, source-available, or
+  trademark notices;
+- use the names or marks "Opus SC LegalTech", "SC LegalTech", or related
+  logos, product names, or marks except as allowed by TRADEMARKS.md.
+
+4. Closed Modules
+
+This license does not grant any right to closed modules or closed operational
+flows not expressly included as public self-hosted functionality in this
+repository, including court filing/radicacion or submission connectors,
+legal-act execution automations, managed judicial connector operations,
+credential vault operations, payment-provider integrations, subscription, plan,
+quota, and commercial-tenant systems, monitoring rules, recordings,
+screenshots, or production infrastructure used by SC LegalTech.
+
+Public case tracking adapters, public court-information connectors, stubs, and
+interfaces may be included so the self-hosted edition can run and so users may
+implement their own adapters under their own responsibility.
+
+5. Contributions
+
+Unless a separate written agreement says otherwise, contributions submitted to
+this repository are licensed to Licensor and to downstream users under this
+license. By submitting a contribution, you represent that you have the right to
+do so.
+
+6. No Legal Advice
+
+Opus is software for legal operations. It does not provide legal advice and does
+not replace professional judgment by a qualified lawyer.
+
+7. No Warranty
+
+OPUS IS PROVIDED "AS IS", WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+NON-INFRINGEMENT, SECURITY, AVAILABILITY, OR ACCURACY.
+
+8. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, LICENSOR WILL NOT BE LIABLE FOR ANY
+INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES,
+OR FOR LOSS OF PROFITS, DATA, GOODWILL, BUSINESS, OR LEGAL OUTCOMES ARISING
+FROM THE USE OF OPUS.
+
+9. Commercial License
+
+For uses not allowed by this license, contact Smart Crypto Legal S.A.S. using
+the channels listed in COMMERCIAL.md.
+
+10. Termination
+
+Your rights under this license terminate automatically if you violate its terms.
+Upon termination, you must stop using, hosting, distributing, or offering Opus
+under this license.
+
+11. Governing Law
+
+This draft is intended to be reviewed under Colombian law and applicable
+international copyright rules before public release.

@@ -1,0 +1,11 @@
+Opus
+Copyright (c) 2026 Smart Crypto Legal S.A.S.
+
+Opus is a fair-code/source-available LegalTech MCP platform.
+
+The public self-hosted release includes source code, documentation, schemas,
+interfaces and stubs. It does not include closed judicial connectors, production
+operations, hosted infrastructure, private recordings, client data, or internal
+playbooks of Smart Crypto Legal S.A.S.
+
+Third-party dependencies remain under their respective licenses.

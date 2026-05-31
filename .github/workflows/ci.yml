@@ -1,0 +1,159 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install
+        working-directory: backend
+        run: npm ci
+
+      - name: Audit production dependencies
+        working-directory: backend
+        run: npm audit --omit=dev
+
+      - name: Syntax check
+        working-directory: backend
+        run: find . -path ./node_modules -prune -o -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Public judicial stubs load
+        working-directory: backend
+        env:
+          JWT_SECRET: ci_test_secret_not_used_in_prod
+        run: |
+          node -e "require('./src/routes/cpnu.routes'); require('./src/routes/judicialIntegrations.routes'); require('./src/services/judicialConnector.stub'); console.log('backend public stubs load')"
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        working-directory: frontend
+        run: npm ci
+
+      - name: Audit production dependencies
+        working-directory: frontend
+        run: npm audit --omit=dev
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+
+  mcp-server:
+    name: MCP server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mcp-server/package-lock.json
+
+      - name: Install
+        working-directory: mcp-server
+        run: npm ci
+
+      - name: Audit production dependencies
+        working-directory: mcp-server
+        run: npm audit --omit=dev
+
+      - name: Syntax check
+        working-directory: mcp-server
+        run: find src -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Register tools smoke
+        working-directory: mcp-server
+        run: |
+          node --input-type=module -e "import('./src/server.js').then(({ createServer }) => { createServer(); console.log('mcp tools registered'); process.exit(0); }).catch((err) => { console.error(err); process.exit(1); });"
+
+  public-hygiene:
+    name: Public hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Closed paths are absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          forbidden=(
+            "PREVIEW.html"
+            "AGENTS.md"
+            "CLAUDE.md"
+            "artifacts"
+            "backend/storage"
+            "database/backups"
+            "docs/private"
+            "docs/internal"
+            "docs/onboarding"
+            "docs/estrategia"
+            "scripts"
+            "backend/scripts"
+            "backend/deploy.toml"
+            "backend/deploy.staging.toml"
+            "mcp-server/deploy.toml"
+            "mcp-server/deploy.staging.toml"
+            "docker-compose.prod.yml"
+          )
+          for path in "${forbidden[@]}"; do
+            if [ -e "$path" ]; then
+              echo "Forbidden public path found: $path"
+              exit 1
+            fi
+          done
+          if find database -maxdepth 1 -type f -name 'migration*.sql' | grep -q .; then
+            echo "Historical database migrations must not be published"
+            exit 1
+          fi
+
+      - name: Sensitive pattern scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          pattern='(admin123|abogado123|[nN][0-9][nN])'
+          if grep -RInE "$pattern" . \
+            --exclude-dir=.git \
+            --exclude-dir=node_modules \
+            --exclude-dir=dist \
+            --exclude='ci.yml' \
+            --exclude='package-lock.json'; then
+            echo "Sensitive public-release pattern found"
+            exit 1
+          fi
+
+      - name: Private key and binary extension scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find . \
+            -path './.git' -prune -o \
+            -path './**/node_modules' -prune -o \
+            -type f | grep -Ei '\.(xlsx|pdf|pem|key|p12|pfx)$'; then
+            echo "Forbidden binary/private-key extension found"
+            exit 1
+          fi

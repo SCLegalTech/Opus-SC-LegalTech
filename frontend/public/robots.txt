@@ -1,0 +1,5 @@
+# Opus SC LegalTech self-hosted workspace.
+# This distribution does not publish marketing pages.
+
+User-agent: *
+Disallow: /

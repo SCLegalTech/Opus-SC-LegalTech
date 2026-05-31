@@ -1,0 +1,16 @@
+{
+  "_comment": "Copy this block into your local Claude Desktop MCP config. Replace <absolute-path-to-repo> with your local clone path.",
+  "mcpServers": {
+    "opus": {
+      "command": "node",
+      "args": [
+        "<absolute-path-to-repo>/mcp-server/src/index.js"
+      ],
+      "env": {
+        "MCP_API_URL": "http://localhost:4000/api/v1",
+        "MCP_API_TOKEN": "<agent-user-jwt-from-post-api-auth-login>",
+        "MCP_TRANSPORT": "stdio"
+      }
+    }
+  }
+}

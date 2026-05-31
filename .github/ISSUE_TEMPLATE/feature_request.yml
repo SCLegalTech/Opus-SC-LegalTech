@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest an improvement for the public self-hosted edition
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Large features should start as a discussion before implementation. Closed judicial connectors are not part of the public self-hosted roadmap.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - public self-hosted core
+        - documentation
+        - MCP tool
+        - generic integration
+        - hosted/enterprise
+        - unsure
+    validations:
+      required: true

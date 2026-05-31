@@ -1,0 +1,102 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: opus_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: opus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD requerido en .env}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - opus_net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: opus_api
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: opus
+      DB_USER: postgres
+      DB_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD requerido en .env}"
+      JWT_SECRET: "${JWT_SECRET:?JWT_SECRET requerido en .env, generar con openssl rand -hex 32}"
+      FRONTEND_URL: http://localhost:5173
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:5174,http://127.0.0.1:5174}
+      AI_STRICT: "false"
+      AI_PROVIDER: ${AI_PROVIDER:-gemini}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      MCP_SERVER_URL: ${MCP_SERVER_URL:-http://mcp-server:4001}
+      MCP_CLIENT_ENABLED: ${MCP_CLIENT_ENABLED:-true}
+      MCP_API_TOKEN: ${MCP_API_TOKEN:-}
+      MCP_HTTP_AUTH_TOKEN: ${MCP_HTTP_AUTH_TOKEN:-}
+    ports:
+      - "4000:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - opus_net
+
+  mcp-server:
+    build:
+      context: ./mcp-server
+      dockerfile: Dockerfile
+    container_name: opus_mcp
+    restart: unless-stopped
+    environment:
+      MCP_TRANSPORT: http
+      MCP_HTTP_PORT: 4001
+      MCP_API_URL: http://backend:4000/api/v1
+      MCP_API_TOKEN: ${MCP_API_TOKEN:-}
+      MCP_HTTP_AUTH_TOKEN: ${MCP_HTTP_AUTH_TOKEN:-}
+      MCP_CORS_ORIGINS: ${MCP_CORS_ORIGINS:-}
+    ports:
+      - "4001:4001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - opus_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: opus_ui
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - opus_net
+
+networks:
+  opus_net:
+    name: opus_network
+    driver: bridge
+
+volumes:
+  pgdata:
+    name: opus_pgdata

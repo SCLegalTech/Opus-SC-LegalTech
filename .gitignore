@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+coverage/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Runtime and logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.codex-logs/
+backend/storage/
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Local database/data artifacts
+*.db
+*.sqlite
+*.sqlite3
+database/backups/
+.litert-cache/
+.litert-home/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+.claude/
+
+# Docker local override files
+docker-compose.override.yml
+
+# Local visual review artifacts (puppeteer/playwright/cdp)
+frontend/.chrome-cdp-*/
+frontend/.chrome-*/
+frontend/.chrome-headless-*/
+frontend/headless-dom.html
+frontend/hero-*.png
+frontend/mobile-*-review*.png
+frontend/review-*.png
+frontend/review-*.txt
+frontend/marker-*.txt
+frontend/cdp-check.txt
+frontend/launch-cdp.cmd
+frontend/launch-cdp*.cmd
+frontend/validate-*.png

@@ -1,0 +1,12 @@
+# SC LegalTech CODEOWNERS
+# Institutional review ownership for the public self-hosted repository.
+
+* @SCLegalTech
+
+/backend/src/controllers/auth.controller.js @SCLegalTech
+/backend/src/middleware/auth.js @SCLegalTech
+/backend/src/config/secrets.js @SCLegalTech
+/database/ @SCLegalTech
+/docker-compose*.yml @SCLegalTech
+/.github/ @SCLegalTech
+/backend/Dockerfile* @SCLegalTech
