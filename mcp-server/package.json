@@ -10,8 +10,8 @@
     "start:http":  "MCP_TRANSPORT=http  node src/index.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.0",
-    "zod": "^3.23.0"
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.4.3"
   },
   "engines": {
     "node": ">=20"
